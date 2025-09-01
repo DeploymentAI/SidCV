@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sid Nair - Creative Director</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --text: #000;
+            --light-gray: #f5f5f7;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            color: #000;
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            position: relative;
+            opacity: 1;
+            transform: none;
+        }
+
+        .hero::before {
+            display: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            overflow: hidden;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: letterReveal 0.6s ease forwards;
+        }
+
+        @keyframes letterReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero.parallax h1 span {
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #000;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero .location {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            padding: 60px 20px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .stat {
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .stat:nth-child(1) { animation-delay: 0.1s; }
+        .stat:nth-child(2) { animation-delay: 0.2s; }
+        .stat:nth-child(3) { animation-delay: 0.3s; }
+        .stat:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: var(--border);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item.show .content > * {
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .timeline-item.show .timeline-date { animation-delay: 0.1s; }
+        .timeline-item.show .company { animation-delay: 0.2s; }
+        .timeline-item.show .role { animation-delay: 0.3s; }
+        .timeline-item.show .highlights { animation-delay: 0.4s; }
+        .timeline-item.show .explore-btn { animation-delay: 0.5s; }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 3px solid #000;
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+            text-align: right;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::after {
+            right: -7px;
+        }
+
+        .right::after {
+            left: -7px;
+        }
+
+        .content {
+            padding: 20px 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .content:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .company {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #000;
+        }
+
+        .role {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .highlights {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .explore-btn {
+            background: transparent;
+            border: 1px solid #000;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .explore-btn:hover {
+            background: #000;
+            color: white;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .overlay-content {
+            background: white;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #000;
+        }
+
+        /* The Working Engine */
+        .working-engine {
+            padding: 80px 20px;
+            background: #f5f5f7;
+        }
+
+        .working-engine h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #000;
+        }
+
+        .cred-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cred-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .cred-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .cred-card h3 {
+            color: #000;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .cred-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #000;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 25px;
+            }
+            
+            .left, .right {
+                left: 0;
+                text-align: left;
+            }
+            
+            .left::after, .right::after {
+                left: 25px;
+            }
+            
+            .content {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 id="hero-name">Sid Nair</h1>
+            <p class="subtitle">Creative Director | Pilot & Aviator</p>
+            <p class="location">Malaysia | Ho Chi Minh City | Dubai</p>
+            <p style="margin-top: 30px; font-size: 0.95rem; color: #666;">Comfortable with ambiguity.<br>Strong on clarity.</p>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="30" height="30" viewBox="0 0 30 30">
+                <path d="M15 3 L15 20 M15 20 L10 15 M15 20 L20 15" stroke="#000" stroke-width="2" fill="none"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats">
+        <div class="stat">
+            <div class="stat-number">13+</div>
+            <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Awards Won</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">20+</div>
+            <div class="stat-label">Global Brands</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Countries</div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline">
+        <div class="timeline-year">2025</div>
+        
+        <div class="timeline-item left">
+            <div class="content">
+                <div class="timeline-date">March 2022 - March 2025</div>
+                <h3 class="company">DENTSU</h3>
+                <p class="role">Creative Director</p>
+                <p class="highlights">Toyota, Unifi, Petronas Shop<br>
+                14+ films, 20+ campaigns • 30+ awards • TRR 8.0</p>
+                <button class="explore-btn" onclick="openOverlay('dentsu')">Explore</button>
+            </div>
+        </div>
+
+        <div class="timeline-year">2024</div>
+
+        <div class="timeline-item right">
+            <div class="content">
+                <div class="timeline-date">Feb 2022 - Dec 2024</div>
+                <h3 class="company">THE COCA-COLA COMPANY</h3>
+                <p class="role">Brand Consultant</p>
+                <p class="highlights">EuroPride 2022-2025 • Pan-European LGBTQIA campaign</p>
+                <button class="explore-btn" onclick="openOverlay('coca-cola')">Explore</button>
+            </div>
+        </div>
+
+        <div class="timeline-year">2022</div>
+
+        <div class="timeline-item left">
+            <div class="content">
+                <div class="timeline-date">March 2019 - Feb 2022</div>
+                <h3 class="company">DDB</h3>
+                <p class="role">Associate Creative Director</p>
+                <p class="highlights">Prudential, OPPO, Unilever • 28% YoY growth<br>
+                2x Campaign Asia AOY wins • #11 Hottest Creative</p>
+                <button class="explore-btn" onclick="openOverlay('ddb')">Explore</button>
+            </div>
+        </div>
+
+        <div class="timeline-year">2019</div>
+
+        <div class="timeline-item right">
+            <div class="content">
+                <div class="timeline-date">July 2018 - Feb 2019</div>
+                <h3 class="company">TBWA\WORLDWIDE</h3>
+                <p class="role">Associate Creative Director</p>
+                <p class="highlights">Manulife, Bridgestone • Campaign Asia AOY Gold</p>
+                <button class="explore-btn" onclick="openOverlay('tbwa')">Explore</button>
+            </div>
+        </div>
+
+        <div class="timeline-year">2018</div>
+
+        <div class="timeline-item left">
+            <div class="content">
+                <div class="timeline-date">Feb 2015 - July 2018</div>
+                <h3 class="company">OGILVY</h3>
+                <p class="role">Creative Copywriter</p>
+                <p class="highlights">American Express, Formula One GP • AVA Digital Awards</p>
+                <button class="explore-btn" onclick="openOverlay('ogilvy')">Explore</button>
+            </div>
+        </div>
+
+        <div class="timeline-year">2015</div>
+
+        <div class="timeline-item right">
+            <div class="content">
+                <div class="timeline-date">March 2013 - Feb 2015</div>
+                <h3 class="company">MCCANN WORLDGROUP</h3>
+                <p class="role">Creative Copywriter</p>
+                <p class="highlights">Aircel, Coca-Cola • Led Save our Tigers initiative</p>
+                <button class="explore-btn" onclick="openOverlay('mccann')">Explore</button>
+            </div>
+        </div>
+
+        <div class="timeline-year">2013</div>
+
+        <div class="timeline-item left">
+            <div class="content">
+                <div class="timeline-date">Oct 2011 - March 2013</div>
+                <h3 class="company">BATES CHI&PARTNERS</h3>
+                <p class="role">Intern & Junior Copywriter</p>
+                <p class="highlights">Delhi Police • Foundation years strengthening art & copy craft</p>
+                <button class="explore-btn" onclick="openOverlay('bates')">Explore</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Working Engine -->
+    
+<!-- THE WORKING ENGINE (timeline continuation) -->
+<h2 style="text-align:center; font-size:2rem; font-weight:700; letter-spacing:-0.02em; margin:80px 0 10px;">THE WORKING ENGINE</h2>
+<section class="timeline">
+    <div class="timeline-year">2025</div>
+
+    <div class="timeline-item left">
+        <div class="content">
+            <h3 class="company"><strong>Playbook</strong></h3>
+            <p class="highlights">Design solutions that connect directly to business revenue.<br><br>
+            Spot creative and commercial gaps during macroeconomic shifts.<br><br>
+            Turn strategy into lean prototypes that move from concept to market.<br><br>
+            Run with a tight team, supported by AI at both the creative and infrastructure layer.</p>
+        </div>
+    </div>
+
+    <div class="timeline-item right">
+        <div class="content">
+            <h3 class="company"><strong>Publication</strong></h3>
+            <p class="highlights"><strong>WARC</strong>: How brands can play to win in gaming<br>
+            <strong>Branding in Asia</strong>: Looking back at a Legend, Phylis Robinson<br>
+            <strong>Manager Magazine</strong>: Leading through a pandemic<br>
+            <strong>Branding in Asia</strong>: One under 30</p>
+        </div>
+    </div>
+
+    <div class="timeline-item left">
+        <div class="content">
+            <h3 class="company"><strong>Certification</strong></h3>
+            <p class="highlights">Digital Marketing – Hyper Island<br>
+            Storytelling & Creativity – Cannes Lions</p>
+        </div>
+    </div>
+
+    <div class="timeline-item right">
+        <div class="content">
+            <h3 class="company"><strong>Speaker & Panelist</strong></h3>
+            <p class="highlights">World Out of Home Forum – Speaker/Panelist<br>
+            Digiconfex – Speaker</p>
+        </div>
+    </div>
+
+    <div class="timeline-item left">
+        <div class="content">
+            <h3 class="company"><strong>Second Discipline</strong></h3>
+            <p class="highlights">Pilot – Civil Aviation Malaysia</p>
+        </div>
+    </div>
+
+    <div class="timeline-item right">
+        <div class="content">
+            <h3 class="company"><strong>Atomic Dot</strong></h3>
+            <p class="highlights">Founded a venture studio that turns atoms of thought into creative intelligence, bespoke creative branding and practical solutions or live pilots in emerging frontiers of Marketing, AI, Blockchain and tech.</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeOverlay()">×</button>
+            <div id="overlay-details"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a href="https://thesidnair.com" class="contact-btn" style="text-decoration: none;">View Portfolio</a>
+        <a href="https://linkedin.com/in/sid-nair/" class="contact-btn" style="text-decoration: none; margin-left: 10px;">LinkedIn</a>
+        <p style="font-size: 0.9rem; opacity: 0.8;">© 2024 Sid Nair</p>
+    </footer>
+
+    <script>
+        // Kinetic typography
+        const name = document.getElementById('hero-name');
+        const text = name.textContent;
+        name.innerHTML = text.split('').map((char, i) => 
+            `<span style="animation-delay: ${i * 0.08}s">${char === ' ' ? '&nbsp;' : char}</span>`
+        ).join('');
+
+        // Unified scroll handler
+        let ticking = false;
+        function handleScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const heroHeight = document.querySelector('.hero').offsetHeight;
+                    
+                    // Parallax name scatter
+                    if (scrolled < heroHeight) {
+                        const letters = document.querySelectorAll('#hero-name span');
+                        const progress = scrolled / heroHeight;
+                        letters.forEach((letter, i) => {
+                            const x = (Math.random() - 0.5) * progress * 200;
+                            const y = progress * 150;
+                            const opacity = Math.max(0, 1 - progress * 1.5);
+                            letter.style.transform = `translate(${x}px, ${y}px)`;
+                            letter.style.opacity = opacity;
+                        });
+                    }
+                    
+                    // Timeline parallax
+                    const timeline = document.querySelector('.timeline::after');
+                    if (timeline) {
+                        timeline.style.transform = `translateY(${scrolled * 0.3}px)`;
+                    }
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Section reveal observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add(entry.target.classList.contains('timeline-item') ? 'show' : 'visible');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '-50px' });
+
+        // Observe all sections
+        document.querySelectorAll('section, .timeline-item').forEach(el => observer.observe(el));
+
+        // Overlay functions
+        const overlayData = {
+            'dentsu': '<h2>DENTSU</h2><p style="color:#666">Creative Director | Kuala Lumpur | 2022-2025</p><br><p><strong>Achievements:</strong><br>• 14+ films, 20+ campaigns for Toyota<br>• 30+ awards won across major shows<br>• Hit revenue targets 3x years running<br>• Average TRR Score: 8.0</p><br><p><strong>New Business Wins:</strong><br>Unifi • Petronas Shop • CU Mart • 3 Legs Cooling Water</p><br><p><strong>Key Projects:</strong><br><br><strong>Own the Night</strong> - Nocturnal campaign series for Unifi Telecom targeting audiences who "connect to live by day and live to connect at night"<br><br><strong>Unilympics</strong> - One-handed mobile games launched during Olympics for couch potatoes and thumb twiddlers<br><br><strong>Pizza Hut Cheese Codes</strong> - Real-time FIFA World Cup 2023 promo rewarding mobile gamers for every goal scored on live TV<br>Featured: Adweek, The Drum, Reddit, IGN, Campaign, Little Black Book, Wired</p><br><p><strong>Awards:</strong> Clios • Andy\'s • The Drum • AdStars • MDA • MSA • Effies • Dragons of Asia</p>',
+            'coca-cola': '<h2>THE COCA-COLA COMPANY</h2><p style="color:#666">Brand Consultant | Europe | 2022-2024</p><br><p><strong>A Pivotal Moment for LGBTQIA</strong><br><br>Created the standalone visual identity that branded outdoor and social campaigns across Europe, using the physics principle of white light refracting into rainbow colors.<br><br>• Campaign journey: Started in Italy, culminated in Belgrade<br>• Featured at iconic Piccadilly Circus<br>• Most recently featured at Christina Aguilera\'s concert 2024<br>• Duration: Three years and running<br><br>Positioned Coca-Cola as the main partner of EuroPride 2022-2025 through mass outdoor and social movement.</p>',
+            'ddb': '<h2>DDB</h2><p style="color:#666">Associate Creative Director | Ho Chi Minh City | 2019-2022</p><br><p><strong>Key Clients:</strong> Prudential • OPPO • Unilever (Sunsilk, Lipton, Wall\'s)<br><br><strong>Achievements:</strong><br>• Business growth of 28% YoY<br>• Solo agency lead for 6 months<br>• 2x Campaign Asia AOY wins (steered entries)</p><br><p><strong>Recognition:</strong><br>• Jury Ad Stars 2021: Outdoor<br>• #11 Hottest Creative 2021<br>• The One Asia: Cross-platform<br>• The One Show: CSR<br>• Caples: Digital B2B<br>• Cresta: Digital Design</p><br><p><strong>Agency Awards:</strong><br>• Campaign Brief: #4 Hottest Creative Agency<br>• Campaign Asia AOY 2020: Silver<br>• R3 Worldwide: Gold (pitch wins & revenue)</p><br><p><strong>All Clients:</strong><br>Panasonic • Budweiser • Techcombank • Ninja Van • California Fitness</p>',
+            'tbwa': '<h2>TBWA\\WORLDWIDE</h2><p style="color:#666">Associate Creative Director | Ho Chi Minh City | 2018-2019</p><br><p><strong>Key Clients:</strong> Manulife • Bridgestone • Vietjet Air<br><br><strong>Agency Achievements:</strong><br>• Campaign Asia AOY 2018: Gold<br>• Campaign Asia Digital AOY 2018: Silver<br><br><strong>Key Projects:</strong><br><br><strong>Manulife Brand Positioning:</strong><br>"Happiness is in the little things of life"<br><br><strong>The Happiness Store:</strong><br>Christmas activation bringing the brand promise to life through experiential retail<br><br>Contributed to agency\'s Gold win at Campaign Asia Agency of the Year 2018</p>',
+            'ogilvy': '<h2>OGILVY</h2><p style="color:#666">Creative Copywriter | Bahrain | 2015-2018</p><br><p><strong>Key Clients:</strong><br>American Express • VIVA Telecom • Formula One GP<br>Four Seasons • Le Meridien • Westin<br><br><strong>Awards:</strong><br>• 2x AVA Digital Awards: VIVA Fleet<br>• AVA Digital Awards: VIVA Connected<br><br><strong>Pitch Wins:</strong><br>• Bahrain International Circuit - Formula One Grand Prix<br>• Bahrain Economic Development Board (5-year retainer)<br>• Saudi National Insurance Company</p>',
+            'mccann': '<h2>MCCANN WORLDGROUP</h2><p style="color:#666">Creative Copywriter | New Delhi | 2013-2015</p><br><p><strong>Key Clients:</strong> Aircel • Coca-Cola<br><br><strong>Save our Tigers Initiative:</strong><br>Led national campaign with government backing aimed at reviving Tiger populations from near extinction in India.<br><br><strong>The Mouse that saved the Tiger:</strong><br>Cross-media PSA campaign encouraging e-bill subscriptions - serious conservation message delivered with engaging storytelling.</p>',
+            'bates': '<h2>BATES CHI&PARTNERS</h2><p style="color:#666">Intern & Junior Copywriter | India | 2011-2013</p><br><p>Foundation years focused on strengthening art & copy craft.<br><br><strong>Key Clients:</strong><br>Delhi Police • Costa Coffee • Schneider Electric<br>Hitachi • Max Bupa Insurance • Fortune Magazine<br><br><strong>Pitch Wins:</strong><br>• Schneider<br>• ONGC</p>'
+        };
+
+        function openOverlay(company) {
+            const overlay = document.getElementById('overlay');
+            document.getElementById('overlay-details').innerHTML = overlayData[company];
+            overlay.classList.add('show');
+        }
+
+        function closeOverlay() {
+            document.getElementById('overlay').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
